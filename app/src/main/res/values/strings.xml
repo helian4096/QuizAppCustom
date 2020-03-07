@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">QuizAppCustom</string>
+    <string name="welcome_message">Hello! Welcome to the quiz! Put your name in the box below, and when you are ready, click the start button.</string>
+    <string name="start">Start</string>
+    <string name="hint">Enter your name here.</string>
+    <string name="player_name">Player: Default</string>
+    <string name="top_display">Quiz Time!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
