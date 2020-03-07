@@ -5,7 +5,8 @@
     <string name="hint">Enter your name here.</string>
     <string name="player_name">Player: Default</string>
     <string name="top_display">Quiz Time!</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="question">Question 0.
+    What is the answer to this question?</string>
+    <string name="answer">Answer</string>
+    <string name="next">Continue</string>
 </resources>

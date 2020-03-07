@@ -1,13 +1,14 @@
 package com.premjithsiddharth.quizappcustom;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.net.Uri;
 
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 
@@ -20,14 +21,17 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class BlankFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String QUESTION = "question";
+    private static final String ANSWER_1 = "answer_1";
+    private static final String ANSWER_2 = "answer_2";
+    private static final String ANSWER_3 = "answer_3";
+    private static final String ANSWER_4 = "answer_4";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String question;
+    private String answerA;
+    private String answerB;
+    private String answerC;
+    private String answerD;
 
     private OnFragmentInteractionListener mListener;
 
@@ -35,20 +39,14 @@ public class BlankFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BlankFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BlankFragment newInstance(String param1, String param2) {
+    public static BlankFragment newInstance(String quest, String a, String b, String c, String d) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(QUESTION, quest);
+        args.putString(ANSWER_1, a);
+        args.putString(ANSWER_2, b);
+        args.putString(ANSWER_3, c);
+        args.putString(ANSWER_4, d);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,16 +55,29 @@ public class BlankFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            question = getArguments().getString(QUESTION);
+            answerA = getArguments().getString(ANSWER_1);
+            answerB = getArguments().getString(ANSWER_2);
+            answerC = getArguments().getString(ANSWER_3);
+            answerD = getArguments().getString(ANSWER_4);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_questions, container, false);
+        View v = inflater.inflate(R.layout.fragment_questions, container, false);
+        TextView quest_text = v.findViewById(R.id.question);
+        quest_text.setText(question);
+        TextView text_a = v.findViewById(R.id.answer1);
+        text_a.setText(answerA);
+        TextView text_b = v.findViewById(R.id.answer2);
+        text_b.setText(answerB);
+        TextView text_c = v.findViewById(R.id.answer3);
+        text_c.setText(answerC);
+        TextView text_d = v.findViewById(R.id.answer4);
+        text_d.setText(answerD);
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
