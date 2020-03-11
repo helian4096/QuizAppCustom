@@ -1,6 +1,10 @@
 package com.premjithsiddharth.quizappcustom;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener{
@@ -24,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     String[][] quiz;
     int counter;
     LayoutInflater inflater;
-    ViewGroup group;
+    RadioGroup radio;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +55,9 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         player = findViewById(R.id.name_container);
         player.setText(str);
         buttonCont = findViewById(R.id.button_continue);
-        BlankFragment.newInstance(quiz[counter][0], quiz[counter][1], quiz[counter][2], quiz[counter][3], quiz[counter][4]);
-        BlankFragment fragment = new BlankFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.questions_fragment, fragment).commit();
+        nextPage(v);
     }
     public void nextPage(View v){
-        counter++;
         if(counter >= 4){
             setContentView(R.layout.final_page);
             replay = findViewById(R.id.replay);
@@ -64,19 +66,21 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
                 public void onClick (View v){
                     counter = 0;
                     setContentView(R.layout.home_layout);
-
                 }
             });
             }
         else {
-            BlankFragment.newInstance(quiz[counter][0], quiz[counter][1], quiz[counter][2], quiz[counter][3], quiz[counter][4]);
-            BlankFragment fragment = new BlankFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.questions_fragment, fragment);
+            System.out.println(quiz[counter][0]);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.questions_fragment, BlankFragment.newInstance(quiz[counter][0], quiz[counter][1], quiz[counter][2], quiz[counter][3], quiz[counter][4]));
+            transaction.addToBackStack(null);
+            transaction.commit();
+            counter++;
             }
         }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
+        uri.getFragment();
     }
 }
