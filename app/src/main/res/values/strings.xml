@@ -12,5 +12,6 @@
     <string name="congrats">Congratulations for finishing! You got number right!</string>
     <string name="score">Score distribution: </string>
     <string name="score_dist">4: 0, 3: 0, 2: 0, 1: 0, 0: 0</string>
+    <string name="find">Find Score</string>
     <string name="replay">Replay</string>
 </resources>

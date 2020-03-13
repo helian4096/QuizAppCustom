@@ -3,6 +3,7 @@ package com.premjithsiddharth.quizappcustom;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import com.google.gson.*;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener{
     SharedPreferences sharedPreferences;
@@ -33,6 +44,11 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     TextView score;
     int correctAnswers;
     TextView distr;
+    Gson gson;
+    EditText edit;
+    TextView text;
+    UserScore currentScore;
+    ConstraintLayout loo;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         counter = 0;
         inflater = getLayoutInflater();
         correctAnswers = 0;
+        gson = new Gson();
         quiz = new String[][] {
                 {"Question 1. What is the capital of Russia?", "Berlin", "Kiev", "Moscow", "Ottawa"},
                 {"Question 2. What is the capital of Washington?", "Seattle", "Olympia", "Walla Walla", "Spokane"},
@@ -106,11 +123,37 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
                     ", 1: " + sharedPreferences.getInt("1", 0) +
                     ", 0: " + sharedPreferences.getInt("0", 0);
             distr.setText(distribution);
+            String scoreU = "{\"player\":\"" + player.getText() + "\",\"score\":" + correctAnswers + "}";
+            System.out.println(scoreU);
+            editor.putString((String)(player.getText()), scoreU);
+            editor.apply();
+            System.out.println(sharedPreferences.getString((String)(player.getText()), "Not found."));
             replay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View v){
                     counter = 0;
                     setContentView(R.layout.home_layout);
+                }
+            });
+            edit = findViewById(R.id.find_player);
+            Button button = findViewById(R.id.button_find);
+            text = findViewById(R.id.player_display);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CharSequence s = edit.getText();
+                    String ss = "Player: " + s;
+                    String found = sharedPreferences.getString(ss, "Not found.");
+                    System.out.println(found);
+                    if(found.equals("Not found.")){
+                        text.setText(found);
+                    }
+                    else {
+                        currentScore = gson.fromJson(found, UserScore.class);
+                        System.out.println(currentScore.score);
+                        String str = "" + currentScore.score;
+                        text.setText(str);
+                    }
                 }
             });
             }
@@ -127,5 +170,9 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     @Override
     public void onFragmentInteraction(Uri uri) {
         uri.getFragment();
+    }
+    public class UserScore {
+        String player;
+        int score;
     }
 }

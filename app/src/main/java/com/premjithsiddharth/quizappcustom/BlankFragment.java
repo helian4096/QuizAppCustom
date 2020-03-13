@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +39,7 @@ public class BlankFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private View v;
+    private Gson gson;
 
     public BlankFragment() {
         // Required empty public constructor
