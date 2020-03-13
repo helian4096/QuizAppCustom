@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     int counter;
     LayoutInflater inflater;
     RadioGroup radio;
+    TextView score;
+    int correctAnswers;
+    TextView distr;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         start = findViewById(R.id.start);
         counter = 0;
         inflater = getLayoutInflater();
+        correctAnswers = 0;
         quiz = new String[][] {
                 {"Question 1. What is the capital of Russia?", "Berlin", "Kiev", "Moscow", "Ottawa"},
                 {"Question 2. What is the capital of Washington?", "Seattle", "Olympia", "Walla Walla", "Spokane"},
@@ -58,9 +62,50 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         nextPage(v);
     }
     public void nextPage(View v){
+        if(counter != 0){
+            BlankFragment fragment = (BlankFragment)(getSupportFragmentManager().findFragmentById(R.id.questions_fragment));
+            if(fragment != null) {
+                String s = fragment.answer();
+                System.out.println(s);
+                if(counter == 1){
+                    if(s.equals("Moscow")){
+                        correctAnswers++;
+                    }
+                }
+                else if(counter == 2){
+                    if(s.equals("Olympia")){
+                        correctAnswers++;
+                    }
+                }
+                else if(counter == 3){
+                    if(s.equals("Sofia")){
+                        correctAnswers++;
+                    }
+                }
+                else if(counter == 4){
+                    if(s.equals("Sweden")){
+                        correctAnswers++;
+                    }
+                }
+            }
+        }
         if(counter >= 4){
             setContentView(R.layout.final_page);
+            score = findViewById(R.id.final_message);
             replay = findViewById(R.id.replay);
+            distr = findViewById(R.id.score_distribution);
+            String str = "Congratulations for finishing! You got " + correctAnswers + " right!";
+            score.setText(str);
+            int newX = sharedPreferences.getInt("" + correctAnswers, 0);
+            newX++;
+            editor.putInt("" + correctAnswers, newX);
+            editor.apply();
+            String distribution = "4: " + sharedPreferences.getInt("4", 0) +
+                    ", 3: " + sharedPreferences.getInt("3", 0) +
+                    ", 2: " + sharedPreferences.getInt("2", 0) +
+                    ", 1: " + sharedPreferences.getInt("1", 0) +
+                    ", 0: " + sharedPreferences.getInt("0", 0);
+            distr.setText(distribution);
             replay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View v){

@@ -3,6 +3,7 @@ package com.premjithsiddharth.quizappcustom;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.net.Uri;
@@ -35,6 +36,7 @@ public class BlankFragment extends Fragment {
     private String answerD;
 
     private OnFragmentInteractionListener mListener;
+    private View v;
 
     public BlankFragment() {
         // Required empty public constructor
@@ -67,7 +69,7 @@ public class BlankFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_questions, container, false);
+        v = inflater.inflate(R.layout.fragment_questions, container, false);
         TextView quest_text = v.findViewById(R.id.question);
         quest_text.setText(question);
         TextView text_a = v.findViewById(R.id.answer1);
@@ -103,6 +105,12 @@ public class BlankFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public String answer(){
+        RadioGroup radio = v.findViewById(R.id.radio);
+        RadioButton radioB = v.findViewById(radio.getCheckedRadioButtonId());
+        return "" + radioB.getText();
     }
 
     /**
